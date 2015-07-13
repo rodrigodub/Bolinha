@@ -10,3 +10,5 @@ For each **~TOPS_DEFINITION[x]** section it will take the THIRD line to define w
 For each **~LOG_DEFINITION[x]** section it will take the SECOND line to define what the new output will be called, and store all fieldnames as the first row in a list. After the next '#------------------------------------------------------------', it will store the data as subsequent rows of the same list, until it finds the next '#------------------------------------------------------------'.
 
 After reaching the end of input file, Bolinha will then write all the collected lists as individual CSV files.
+
+![Bolinha class diagram](https://github.com/rodrigodub/Bolinha/blob/master/doc/Diagrams/Photo%2013-07-2015%2012%2012%2041.jpg)
