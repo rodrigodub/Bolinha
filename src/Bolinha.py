@@ -5,8 +5,8 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.008
-# for Issue #3
+# v0.1.009
+# for Issues #3 #7
 #
 # Rodrigo Nobrega
 # 20150709-20150714
@@ -27,10 +27,15 @@ class Las2csv(object):
     def __init__(self):
         self.inputFileName = input('File name? ')
         self.inputFile = self.readFile(self.inputFileName)
+        self.tops_list = self.setTopsList(self.inputFile)
 
     def readFile(self, filename):
         """Method to read the input file contents"""
         return LHFile(filename).readInfo()
+
+    def setTopsList(self, inputFile):
+        """Method to return the list of TOPS sections in the input file"""
+        return [i[:-1] for i in inputFile if '~TOPS_DEFINITION' in i]
 
 
 # test loop
@@ -42,20 +47,19 @@ def test():
     # a = '/Users/rodrigo/GitHub/Bolinha/test/'
     # Windows
     # a = r'C:\GitHub\Bolinha\test'
-    # a = input('Path? ')
     # 'C:\GitHub\Bolinha\test\KRC4400_8-4-4.las'
+    # 'C:\GitHub\Bolinha\test\v5-AKN1129.las'
+    # 'C:\GitHub\Bolinha\test\v5-AIA1492.las'
+    # 'C:\GitHub\Bolinha\test\v5-Boliden Renström 2014_REF2823.las'
+    # 'C:\GitHub\Bolinha\test\v5-AKN1116.las'
+    # 'C:\GitHub\Bolinha\test\v5-KRC4402_8-4-4.las'
     # b = ['KRC4400_8-4-4.las', 'v5-AKN1129.las'
     # , 'v5-AIA1492.las'
     # , 'v5-Boliden Renström 2014_REF2823.las'
     # , 'v5-AKN1116.las', 'v5-KRC4402_8-4-4.las']
-    # Unix
-    # c = LHFile(a+b[1])
-    # Windows
-    # c = LHFile(a + '\\' + b[1])
-    # d = c.readInfo()
-    # [print(i) for i in d]
     a = Las2csv()
-    [print(i) for i in a.inputFile]
+    # [print(i) for i in a.inputFile]
+    [print(i) for i in a.tops_list]
 
 
 # main loop
