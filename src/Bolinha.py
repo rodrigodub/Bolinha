@@ -5,7 +5,7 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.009
+# v0.1.010
 # for Issues #3 #7
 #
 # Rodrigo Nobrega
@@ -48,9 +48,11 @@ def test():
     # Windows
     # a = r'C:\GitHub\Bolinha\test'
     # 'C:\GitHub\Bolinha\test\KRC4400_8-4-4.las'
+    # '/Users/rodrigo/GitHub/Bolinha/test/KRC4400_8-4-4.las'
     # 'C:\GitHub\Bolinha\test\v5-AKN1129.las'
     # 'C:\GitHub\Bolinha\test\v5-AIA1492.las'
     # 'C:\GitHub\Bolinha\test\v5-Boliden Renström 2014_REF2823.las'
+    # '/Users/rodrigo/GitHub/Bolinha/test/v5-Boliden Renström 2014_REF2823.las'
     # 'C:\GitHub\Bolinha\test\v5-AKN1116.las'
     # 'C:\GitHub\Bolinha\test\v5-KRC4402_8-4-4.las'
     # b = ['KRC4400_8-4-4.las', 'v5-AKN1129.las'

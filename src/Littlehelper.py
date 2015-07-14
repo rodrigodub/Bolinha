@@ -5,11 +5,11 @@
 # Little Helper is just an utility module for
 # database and text methods
 #
-# v0.1.004
-# Issue #3
+# v0.1.006
+# Issue #4
 #
 # Rodrigo Nobrega
-# 20150713-
+# 20150713-20150714
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -119,7 +119,8 @@ class LHFile(object):
         """
         Method to scan the file, returns a list
         """
-        arq = open(self.file, 'r')
+        # arq = open(self.file, 'r')
+        arq = open(self.file, encoding='latin-1')
         result = []
         #arq.readline()
         [result.append(i) for i in arq]
