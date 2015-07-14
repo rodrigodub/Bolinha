@@ -5,8 +5,8 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.006
-# for Issue #10
+# v0.1.008
+# for Issue #3
 #
 # Rodrigo Nobrega
 # 20150709-20150714
@@ -25,7 +25,12 @@ class Las2csv(object):
     Class to convert LAS 3.0 file into CSVs
     """
     def __init__(self):
-        pass
+        self.inputFileName = input('File name? ')
+        self.inputFile = self.readFile(self.inputFileName)
+
+    def readFile(self, filename):
+        """Method to read the input file contents"""
+        return LHFile(filename).readInfo()
 
 
 # test loop
@@ -33,16 +38,24 @@ def test():
     print('------------------------')
     print('Test.')
     print('------------------------')
+    # Unix
     # a = '/Users/rodrigo/GitHub/Bolinha/test/'
-    a = r'C:\GitHub\Bolinha\test'
-    b = ['KRC4400_8-4-4.las', 'v5-AKN1129.las'
-    , 'v5-AIA1492.las'
-    , 'v5-Boliden Renström 2014_REF2823.las'
-    , 'v5-AKN1116.las', 'v5-KRC4402_8-4-4.las']
+    # Windows
+    # a = r'C:\GitHub\Bolinha\test'
+    # a = input('Path? ')
+    # 'C:\GitHub\Bolinha\test\KRC4400_8-4-4.las'
+    # b = ['KRC4400_8-4-4.las', 'v5-AKN1129.las'
+    # , 'v5-AIA1492.las'
+    # , 'v5-Boliden Renström 2014_REF2823.las'
+    # , 'v5-AKN1116.las', 'v5-KRC4402_8-4-4.las']
+    # Unix
     # c = LHFile(a+b[1])
-    c = LHFile(a + '\\' + b[2])
-    d = c.readInfo()
-    [print(i) for i in d]
+    # Windows
+    # c = LHFile(a + '\\' + b[1])
+    # d = c.readInfo()
+    # [print(i) for i in d]
+    a = Las2csv()
+    [print(i) for i in a.inputFile]
 
 
 # main loop
