@@ -5,8 +5,8 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.015
-# for Issues #13
+# v0.1.016
+# for Issues #8
 #
 # Rodrigo Nobrega
 # 20150709-20150715
@@ -29,6 +29,9 @@ class Las2csv(object):
     topsList : list - list of TOPS sections on file
     topsFields : list - list of trios [top section, top name, [field1, field2, ..., fieldn]]
     topsData : list - list of data from each TOPS section as [top section, [d1, d2, ..., dn]]
+    logList : list - list of LOG sections on file
+    logFields : list - list of trios [log section, log name, [field1, field2, ..., fieldn]]
+    logData : list - list of data from each LOG section as [log section, [d1, d2, ..., dn]]
     """
     def __init__(self):
         self.inputFileName = input('File name? ')
@@ -36,6 +39,9 @@ class Las2csv(object):
         self.topsList = self.setTopsList(self.inputFile)
         self.topsFields = self.setTopsFields(self.inputFile, self.topsList)
         self.topsData = self.setTopsData(self.inputFile, self.topsList)
+        self.logList = self.setLogList(self.inputFile)
+        # self.topsFields = self.setTopsFields(self.inputFile, self.topsList)
+        # self.topsData = self.setTopsData(self.inputFile, self.topsList)
 
     def readFile(self, filename):
         """Method to read the input file contents"""
@@ -44,6 +50,10 @@ class Las2csv(object):
     def setTopsList(self, inputfile):
         """Method to return the list of TOPS sections in the input file"""
         return [i[:-1] for i in inputfile if '~TOPS_DEFINITION' in i]
+
+    def setLogList(self, inputfile):
+        """Method to return the list of LOG sections in the input file"""
+        return [i[:-1] for i in inputfile if '~LOG_DEFINITION' in i]
 
     def setTopsFields(self, inputfile, topslist):
         """Method to define the list of fields for each TOPS section"""
@@ -116,9 +126,12 @@ def test():
     # , 'v5-AKN1116.las', 'v5-KRC4402_8-4-4.las']
     a = Las2csv()
     # [print(i) for i in a.inputFile]
-    # [print(i) for i in a.topsList]
+    [print(i) for i in a.topsList]
     # [print(i) for i in a.topsFields]
-    [print(i) for i in a.topsData]
+    # [print(i) for i in a.topsData]
+    [print(i) for i in a.logList]
+    # [print(i) for i in a.logsFields]
+    # [print(i) for i in a.logsData]
 
 
 # main loop
