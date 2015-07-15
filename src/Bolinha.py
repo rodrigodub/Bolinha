@@ -5,8 +5,8 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.024
-# for Issue #5
+# v0.1.025
+# for Issue #15
 #
 # Rodrigo Nobrega
 # 20150709-20150715
@@ -14,9 +14,46 @@
 __author__ = 'Rodrigo Nobrega'
 
 # import modules
-# import os
-# import datetime
-from Littlehelper import LHFile
+
+
+# LHFile
+# from Littlehelper
+class LHFile(object):
+    """
+    DfLogFile opens a file, appends new info at the end, and closes it.
+        Modified on v0.1.0810 to receive the filename when instantiated
+    """
+    def __init__(self, file):
+        """
+        :param file: string     - the log file, usually declared as variable LOGFILE
+        """
+        self.file = r'{}'.format(file)
+
+    def writeInfo(self, param):
+        """
+        Method to open a file in Append mode, write the argument passed as param,
+        add a new line, and close the file for writing.
+        :param param: string    - what to write to the log file
+        """
+        # open file in Append mode
+        f = open(self.file, 'a')
+        # write to file the argument param, and a new line
+        f.write(param)
+        f.write('\n')
+        # close the file
+        f.close()
+
+    def readInfo(self):
+        """
+        Method to scan the file, returns a list
+        """
+        # arq = open(self.file, 'r')
+        arq = open(self.file, encoding='latin-1')
+        result = []
+        #arq.readline()
+        [result.append(i) for i in arq]
+        arq.close()
+        return result
 
 
 # Las2csv()
