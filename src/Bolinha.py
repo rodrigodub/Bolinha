@@ -5,7 +5,7 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.019
+# v0.1.020
 # for Issue #6
 #
 # Rodrigo Nobrega
@@ -167,7 +167,12 @@ class Las2csv(object):
         while inputfile[idx] != '#------------------------------------------------------------\n':
             parameter.append(inputfile[idx])
             idx += 1
-        return parameter
+        for i in parameter:
+            if i.split(':')[0].split('.')[1].strip():
+                dictionary[i.split('.')[0]] = i.split(':')[0].split('.')[1].strip()
+        dictionary['HOLEID'] = dictionary['SITECODE'] + dictionary['DH_NUMBER']
+        dictionary['COMPLETE'] = parameter
+        return dictionary
 
 
 # test loop
@@ -200,6 +205,7 @@ def test():
     # [print(i) for i in a.logFields]
     # [print(i) for i in a.logData]
     [print(i) for i in a.collarInfo]
+    print(a.collarInfo)
 
 
 # main loop
