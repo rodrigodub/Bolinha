@@ -5,11 +5,11 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.011
+# v0.1.012
 # for Issues #11
 #
 # Rodrigo Nobrega
-# 20150709-20150714
+# 20150709-20150715
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -27,7 +27,7 @@ class Las2csv(object):
     inputFileName : string - path/file name
     inputFile : list - the file contents, each line an item
     topsList : list - list of TOPS section on file
-    topsFields : list - list of pairs [top section, [field1, field2, ...]]
+    topsFields : list - list of trios [top section, top name, [field1, field2, ...]]
     """
     def __init__(self):
         self.inputFileName = input('File name? ')
@@ -45,12 +45,18 @@ class Las2csv(object):
 
     def setTopsFields(self, inputfile, topslist):
         """Method to define the list of fields for each TOPS section"""
+        # resulting list to output
         result = []
         for i in topslist:
+            # each ~TOPS_DEFINITION section
             tops = []
             tops.append(i)
+            # finds the inputFile index of the ~TOPS_DEFINITION
             idx = inputfile.index(i+'\n')
-            tops.append(inputfile[idx+3])
+            # takes the third line as the TOP NAME
+            tops.append(inputfile[idx+3].split(':')[1]
+                        .replace(' Lithology      {S}\n', '').replace(' Symbol      {S}\n', ''))
+            # list of field names
             fields = []
             while inputfile[idx+3] != '#------------------------------------------------------------\n':
                 fields.append(inputfile[idx+3])
@@ -73,13 +79,13 @@ def test():
     # '/Users/rodrigo/GitHub/Bolinha/test/KRC4400_8-4-4.las'
     # 'C:\GitHub\Bolinha\test\v5-AKN1129.las'
     # 'C:\GitHub\Bolinha\test\v5-AIA1492.las'
-    # 'C:\GitHub\Bolinha\test\v5-Boliden RenstrÃ¶m 2014_REF2823.las'
-    # '/Users/rodrigo/GitHub/Bolinha/test/v5-Boliden RenstrÃ¶m 2014_REF2823.las'
+    # 'C:\GitHub\Bolinha\test\v5-Boliden Renström 2014_REF2823.las'
+    # '/Users/rodrigo/GitHub/Bolinha/test/v5-Boliden Renström 2014_REF2823.las'
     # 'C:\GitHub\Bolinha\test\v5-AKN1116.las'
     # 'C:\GitHub\Bolinha\test\v5-KRC4402_8-4-4.las'
     # b = ['KRC4400_8-4-4.las', 'v5-AKN1129.las'
     # , 'v5-AIA1492.las'
-    # , 'v5-Boliden RenstrÃ¶m 2014_REF2823.las'
+    # , 'v5-Boliden Renström 2014_REF2823.las'
     # , 'v5-AKN1116.las', 'v5-KRC4402_8-4-4.las']
     a = Las2csv()
     # [print(i) for i in a.inputFile]
