@@ -2,11 +2,12 @@
 # -*- coding: windows-1252 -*-
 
 #################################################
-#                   Bolinha
-# Bolinha is a script to process LAS files
+#                   LAS2CSV
+# Las2csv is a script to process a LAS 3.0 file
+# and convert it into multiple CSV files
 #
-# v0.1.025
-# for Issue #15
+# v1.0
+# for Issue #17
 #
 # Rodrigo Nobrega
 # 20150709-20150715
@@ -291,10 +292,6 @@ def test():
     # '/Users/rodrigo/GitHub/Bolinha/test/v5-Boliden Renström 2014_REF2823.las'
     # 'C:\GitHub\Bolinha\test\v5-AKN1116.las'
     # 'C:\GitHub\Bolinha\test\v5-KRC4402_8-4-4.las'
-    # b = ['KRC4400_8-4-4.las', 'v5-AKN1129.las'
-    # , 'v5-AIA1492.las'
-    # , 'v5-Boliden Renström 2014_REF2823.las'
-    # , 'v5-AKN1116.las', 'v5-KRC4402_8-4-4.las']
     a = Las2csv()
     # [print(i) for i in a.inputFile]
     # [print(i) for i in a.topsList]
@@ -315,11 +312,13 @@ def test():
 # main loop
 def main():
     print('------------------------')
-    print('Main.')
+    print('LAS 3.0 to CSVs')
     print('------------------------')
+    a = Las2csv()
+    a.writeFiles()
 
 
 # main, calling main loop
 if __name__ == '__main__':
-    test()
-    # main()
+    # test()
+    main()
