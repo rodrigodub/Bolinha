@@ -5,8 +5,8 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.017
-# for Issues #12
+# v0.1.018
+# for Issue #14
 #
 # Rodrigo Nobrega
 # 20150709-20150715
@@ -41,7 +41,7 @@ class Las2csv(object):
         self.topsData = self.setTopsData(self.inputFile, self.topsList)
         self.logList = self.setLogList(self.inputFile)
         self.logFields = self.setLogFields(self.inputFile, self.logList)
-        # self.logData = self.setLogData(self.inputFile, self.logList)
+        self.logData = self.setLogData(self.inputFile, self.logList)
 
     def readFile(self, filename):
         """Method to read the input file contents"""
@@ -102,7 +102,7 @@ class Las2csv(object):
         return result
 
     def setTopsData(self, inputfile, topslist):
-        """Method to read and return the real section data to a list"""
+        """Method to read and return the real TOPS section data to a list"""
         # resulting list to output
         result = []
         for i in topslist:
@@ -123,6 +123,30 @@ class Las2csv(object):
                 idx += 1
             tops.append(data)
             result.append(tops)
+        return result
+
+    def setLogData(self, inputfile, loglist):
+        """Method to read and return the real LOG section data to a list"""
+        # resulting list to output
+        result = []
+        for i in loglist:
+            # each ~LOG_DEFINITION section
+            log = []
+            log.append(i)
+            # finds the inputFile index of the ~LOG_DEFINITION
+            idx = inputfile.index(i+'\n')
+            # skip until first separator
+            while inputfile[idx] != '#------------------------------------------------------------\n':
+                idx += 1
+            # skip until first data line
+            idx += 2
+            data = []
+            # iterate until next separator, marking end of data
+            while idx < len(inputfile) and inputfile[idx] != '#------------------------------------------------------------\n':
+                data.append(inputfile[idx])
+                idx += 1
+            log.append(data)
+            result.append(log)
         return result
 
 
@@ -153,8 +177,8 @@ def test():
     # [print(i) for i in a.topsFields]
     # [print(i) for i in a.topsData]
     # [print(i) for i in a.logList]
-    [print(i) for i in a.logFields]
-    # [print(i) for i in a.logData]
+    # [print(i) for i in a.logFields]
+    [print(i) for i in a.logData]
 
 
 # main loop
