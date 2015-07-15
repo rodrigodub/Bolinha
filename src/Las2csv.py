@@ -78,7 +78,10 @@ class Las2csv(object):
     def __init__(self):
         self.inputFileName = input('File name? ')
         self.path = self.inputFileName.rsplit('\\', maxsplit=1)[0]
-        self.las = self.inputFileName.rsplit('\\', maxsplit=1)[1]
+        try:
+            self.las = self.inputFileName.rsplit('\\', maxsplit=1)[1]
+        except:
+            self.las = self.inputFileName
         self.inputFile = self.readFile(self.inputFileName)
         self.collarInfo = self.setCollarInfo(self.inputFile)
         self.topsList = self.setTopsList(self.inputFile)
@@ -288,8 +291,8 @@ def test():
     # '/Users/rodrigo/GitHub/Bolinha/test/KRC4400_8-4-4.las'
     # 'C:\GitHub\Bolinha\test\v5-AKN1129.las'
     # 'C:\GitHub\Bolinha\test\v5-AIA1492.las'
-    # 'C:\GitHub\Bolinha\test\v5-Boliden Renström 2014_REF2823.las'
-    # '/Users/rodrigo/GitHub/Bolinha/test/v5-Boliden Renström 2014_REF2823.las'
+    # 'C:\GitHub\Bolinha\test\v5-Boliden Renstrï¿½m 2014_REF2823.las'
+    # '/Users/rodrigo/GitHub/Bolinha/test/v5-Boliden Renstrï¿½m 2014_REF2823.las'
     # 'C:\GitHub\Bolinha\test\v5-AKN1116.las'
     # 'C:\GitHub\Bolinha\test\v5-KRC4402_8-4-4.las'
     a = Las2csv()
