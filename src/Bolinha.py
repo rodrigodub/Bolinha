@@ -5,7 +5,7 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.022
+# v0.1.023
 # for Issue #5
 #
 # Rodrigo Nobrega
@@ -74,7 +74,7 @@ class Las2csv(object):
             idx = inputfile.index(i+'\n')
             # takes the third line as the TOP NAME
             tops.append(inputfile[idx+3].split(':')[1]
-                        .replace(' Lithology      {S}\n', '').replace(' Symbol      {S}\n', ''))
+                        .replace(' Lithology      {S}\n', '').replace(' Symbol      {S}\n', '').replace('      {S}\n', ''))
             # list of field names
             fields = []
             while inputfile[idx+3] != '#------------------------------------------------------------\n':
@@ -215,6 +215,16 @@ class Las2csv(object):
             concat += ','
         LHFile(outputFileName).writeInfo(concat)
         print('Collar file written: {}'.format(outputFileName))
+        # write TOPS files
+        topsindex = 0
+        for i in self.topsFields:
+            fileindex += 1
+            outputFileName = self.inputFileName.replace('.las', '') + '_{:02d}_{}.csv'.format(fileindex, i[1])
+            LHFile(outputFileName).writeInfo('HOLEID, FROM, TO, {}'.format(i[2]).replace('[', '').replace(']', '').replace("'", ""))
+            for j in self.topsData[topsindex][1]:
+                LHFile(outputFileName).writeInfo('{}, {}'.format(self.collarInfo['HOLEID'], j.replace('\n','')))
+            topsindex += 1
+            print('TOPS file written: {}'.format(outputFileName))
 
 
 # test loop
