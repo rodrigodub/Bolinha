@@ -5,8 +5,8 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.020
-# for Issue #6
+# v0.1.021
+# for Issue #5
 #
 # Rodrigo Nobrega
 # 20150709-20150715
@@ -25,6 +25,8 @@ class Las2csv(object):
     Class to convert LAS 3.0 file into CSVs.
     Attributes:
     inputFileName : string - path/file name
+    path : string - just the path
+    las : string - just the LAS file name
     inputFile : list - the file contents, each line an item
     collarInfo : dictionary - dictionary of collar information from ~PARAMETER INFORMATION section
     holeid : string - the historic drillhole HOLEID (= SITECODE + DH_NUMBER)
@@ -37,6 +39,8 @@ class Las2csv(object):
     """
     def __init__(self):
         self.inputFileName = input('File name? ')
+        self.path = self.inputFileName.rsplit('\\', maxsplit=1)[0]
+        self.las = self.inputFileName.rsplit('\\', maxsplit=1)[1]
         self.inputFile = self.readFile(self.inputFileName)
         self.collarInfo = self.setCollarInfo(self.inputFile)
         self.topsList = self.setTopsList(self.inputFile)
@@ -174,6 +178,17 @@ class Las2csv(object):
         dictionary['COMPLETE'] = parameter
         return dictionary
 
+    def writeFiles(self):
+        """
+        Method to write the output files. It assumes all instance attributes have been successfully created
+        and references them by self.attribute (i.e. they are not passed as arguments to the method)
+        """
+        # increment to sort files alphabetically
+        fileindex = 1
+        # write Collar file
+        outputFileName = self.inputFileName.replace('.las', '') + '_{:02d}_Collar.csv'.format(fileindex)
+        return outputFileName
+
 
 # test loop
 def test():
@@ -204,8 +219,12 @@ def test():
     # [print(i) for i in a.logList]
     # [print(i) for i in a.logFields]
     # [print(i) for i in a.logData]
-    [print(i) for i in a.collarInfo]
-    print(a.collarInfo)
+    # [print(i) for i in a.collarInfo]
+    # print(a.collarInfo)
+    print('Path: {}'.format(a.path))
+    print('File: {}'.format(a.las))
+    print('Path+File: {}'.format(a.inputFileName))
+    print('New File: {}'.format(a.writeFiles()))
 
 
 # main loop
