@@ -5,8 +5,8 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.013
-# for Issues #11
+# v0.1.014
+# for Issues #13
 #
 # Rodrigo Nobrega
 # 20150709-20150715
@@ -26,14 +26,16 @@ class Las2csv(object):
     Attributes:
     inputFileName : string - path/file name
     inputFile : list - the file contents, each line an item
-    topsList : list - list of TOPS section on file
-    topsFields : list - list of trios [top section, top name, [field1, field2, ...]]
+    topsList : list - list of TOPS sections on file
+    topsFields : list - list of trios [top section, top name, [field1, field2, ..., fieldn]]
+    topsData : list - list of data from each TOPS section as [top section, [d1, d2, ..., dn]]
     """
     def __init__(self):
         self.inputFileName = input('File name? ')
         self.inputFile = self.readFile(self.inputFileName)
         self.topsList = self.setTopsList(self.inputFile)
         self.topsFields = self.setTopsFields(self.inputFile, self.topsList)
+        self.topsData = self.setTopsData(self.inputFile, self.topsList)
 
     def readFile(self, filename):
         """Method to read the input file contents"""
@@ -66,6 +68,30 @@ class Las2csv(object):
             result.append(tops)
         return result
 
+    def setTopsData(self, inputfile, topslist):
+        """Method to read and return the real section data to a list"""
+        # resulting list to output
+        result = []
+        for i in topslist[:-1]:
+            # each ~TOPS_DEFINITION section
+            tops = []
+            tops.append(i)
+            # finds the inputFile index of the ~TOPS_DEFINITION
+            idx = inputfile.index(i+'\n')
+            # skip until first separator
+            while inputfile[idx] != '#------------------------------------------------------------\n':
+                idx += 1
+            # skip until first data line
+            idx += 2
+            data = []
+            # iterate until next separator, marking end of data
+            while inputfile[idx] != '#------------------------------------------------------------\n' and inputfile[idx]:
+                data.append(inputfile[idx])
+                idx += 1
+            tops.append(data)
+            result.append(tops)
+        return result
+
 
 # test loop
 def test():
@@ -91,7 +117,8 @@ def test():
     a = Las2csv()
     # [print(i) for i in a.inputFile]
     # [print(i) for i in a.topsList]
-    [print(i) for i in a.topsFields]
+    # [print(i) for i in a.topsFields]
+    [print(i) for i in a.topsData]
 
 
 # main loop
