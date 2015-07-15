@@ -5,7 +5,7 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.023
+# v0.1.024
 # for Issue #5
 #
 # Rodrigo Nobrega
@@ -74,12 +74,12 @@ class Las2csv(object):
             idx = inputfile.index(i+'\n')
             # takes the third line as the TOP NAME
             tops.append(inputfile[idx+3].split(':')[1]
-                        .replace(' Lithology      {S}\n', '').replace(' Symbol      {S}\n', '').replace('      {S}\n', ''))
+                        .replace(' Lithology      {S}\n', '').replace(' Symbol      {S}\n', '').replace('      {S}\n', '').replace('/', ''))
             # list of field names
             fields = []
             while inputfile[idx+3] != '#------------------------------------------------------------\n':
                 fields.append(inputfile[idx+3].split(':')[1]
-                              .replace('      {S}\n', '').replace('      {F}\n', '').replace('      {I}\n', ''))
+                              .replace('      {S}\n', '').replace('      {F}\n', '').replace('      {I}\n', '').replace('/', ''))
                 idx += 1
             tops.append(fields)
             result.append(tops)
@@ -225,6 +225,16 @@ class Las2csv(object):
                 LHFile(outputFileName).writeInfo('{}, {}'.format(self.collarInfo['HOLEID'], j.replace('\n','')))
             topsindex += 1
             print('TOPS file written: {}'.format(outputFileName))
+        # write LOG files
+        logindex = 0
+        for i in self.logFields:
+            fileindex += 1
+            outputFileName = self.inputFileName.replace('.las', '') + '_{:02d}_{}.csv'.format(fileindex, i[1])
+            LHFile(outputFileName).writeInfo('HOLEID, DEPTH, {}'.format(i[2]).replace('[', '').replace(']', '').replace("'", ""))
+            for j in self.logData[logindex][1]:
+                LHFile(outputFileName).writeInfo('{}, {}'.format(self.collarInfo['HOLEID'], j.replace('\n','')))
+            logindex += 1
+            print('LOG file written: {}'.format(outputFileName))
 
 
 # test loop
