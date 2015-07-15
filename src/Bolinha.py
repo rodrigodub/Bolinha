@@ -5,8 +5,8 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.018
-# for Issue #14
+# v0.1.019
+# for Issue #6
 #
 # Rodrigo Nobrega
 # 20150709-20150715
@@ -26,6 +26,8 @@ class Las2csv(object):
     Attributes:
     inputFileName : string - path/file name
     inputFile : list - the file contents, each line an item
+    collarInfo : dictionary - dictionary of collar information from ~PARAMETER INFORMATION section
+    holeid : string - the historic drillhole HOLEID (= SITECODE + DH_NUMBER)
     topsList : list - list of TOPS sections on file
     topsFields : list - list of trios [top section, top name, [field1, field2, ..., fieldn]]
     topsData : list - list of data from each TOPS section as [top section, [d1, d2, ..., dn]]
@@ -36,6 +38,7 @@ class Las2csv(object):
     def __init__(self):
         self.inputFileName = input('File name? ')
         self.inputFile = self.readFile(self.inputFileName)
+        self.collarInfo = self.setCollarInfo(self.inputFile)
         self.topsList = self.setTopsList(self.inputFile)
         self.topsFields = self.setTopsFields(self.inputFile, self.topsList)
         self.topsData = self.setTopsData(self.inputFile, self.topsList)
@@ -149,6 +152,23 @@ class Las2csv(object):
             result.append(log)
         return result
 
+    def setCollarInfo(self, inputfile):
+        """
+        Method to retrieve collar information from the ~PARAMETER INFORMATION
+        section
+        and store it in a dictionary
+        """
+        # resulting dictionary with only existing information + the complete list
+        dictionary = {}
+        # complete list of PARAMETER section
+        parameter = []
+        idx = inputfile.index('~PARAMETER INFORMATION\n')
+        idx += 1
+        while inputfile[idx] != '#------------------------------------------------------------\n':
+            parameter.append(inputfile[idx])
+            idx += 1
+        return parameter
+
 
 # test loop
 def test():
@@ -178,7 +198,8 @@ def test():
     # [print(i) for i in a.topsData]
     # [print(i) for i in a.logList]
     # [print(i) for i in a.logFields]
-    [print(i) for i in a.logData]
+    # [print(i) for i in a.logData]
+    [print(i) for i in a.collarInfo]
 
 
 # main loop
