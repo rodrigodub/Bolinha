@@ -5,7 +5,7 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.012
+# v0.1.013
 # for Issues #11
 #
 # Rodrigo Nobrega
@@ -59,7 +59,8 @@ class Las2csv(object):
             # list of field names
             fields = []
             while inputfile[idx+3] != '#------------------------------------------------------------\n':
-                fields.append(inputfile[idx+3])
+                fields.append(inputfile[idx+3].split(':')[1]
+                              .replace('      {S}\n', '').replace('      {F}\n', '').replace('      {I}\n', ''))
                 idx += 1
             tops.append(fields)
             result.append(tops)
