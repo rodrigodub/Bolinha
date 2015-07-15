@@ -5,7 +5,7 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.021
+# v0.1.022
 # for Issue #5
 #
 # Rodrigo Nobrega
@@ -173,7 +173,7 @@ class Las2csv(object):
             idx += 1
         for i in parameter:
             if i.split(':')[0].split('.')[1].strip():
-                dictionary[i.split('.')[0]] = i.split(':')[0].split('.')[1].strip()
+                dictionary[i.split('.')[0]] = i.split(':')[0].split('.', maxsplit=1)[1].strip()
         dictionary['HOLEID'] = dictionary['SITECODE'] + dictionary['DH_NUMBER']
         dictionary['COMPLETE'] = parameter
         return dictionary
@@ -187,7 +187,34 @@ class Las2csv(object):
         fileindex = 1
         # write Collar file
         outputFileName = self.inputFileName.replace('.las', '') + '_{:02d}_Collar.csv'.format(fileindex)
-        return outputFileName
+        LHFile(outputFileName).writeInfo('HOLEID, DEPTH, DIP, DIR, DIAMETER, LOG_SIGN, LOG_DATE')
+        concat = self.collarInfo['HOLEID']
+        try:
+            concat += ', ' + self.collarInfo['TOT_LENGTH']
+        except:
+            concat += ','
+        try:
+            concat += ', ' + self.collarInfo['DIP']
+        except:
+            concat += ','
+        try:
+            concat += ', ' + self.collarInfo['DIR']
+        except:
+            concat += ','
+        try:
+            concat += ', ' + self.collarInfo['DIAMETER']
+        except:
+            concat += ','
+        try:
+            concat += ', ' + self.collarInfo['LOG_SIGN']
+        except:
+            concat += ','
+        try:
+            concat += ', ' + self.collarInfo['LOG_DATE']
+        except:
+            concat += ','
+        LHFile(outputFileName).writeInfo(concat)
+        print('Collar file written: {}'.format(outputFileName))
 
 
 # test loop
@@ -221,10 +248,11 @@ def test():
     # [print(i) for i in a.logData]
     # [print(i) for i in a.collarInfo]
     # print(a.collarInfo)
-    print('Path: {}'.format(a.path))
-    print('File: {}'.format(a.las))
-    print('Path+File: {}'.format(a.inputFileName))
-    print('New File: {}'.format(a.writeFiles()))
+    # print('Path: {}'.format(a.path))
+    # print('File: {}'.format(a.las))
+    # print('Path+File: {}'.format(a.inputFileName))
+    # print('New File: {}'.format(a.writeFiles()))
+    a.writeFiles()
 
 
 # main loop
