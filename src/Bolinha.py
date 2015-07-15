@@ -5,8 +5,8 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.016
-# for Issues #8
+# v0.1.017
+# for Issues #12
 #
 # Rodrigo Nobrega
 # 20150709-20150715
@@ -40,8 +40,8 @@ class Las2csv(object):
         self.topsFields = self.setTopsFields(self.inputFile, self.topsList)
         self.topsData = self.setTopsData(self.inputFile, self.topsList)
         self.logList = self.setLogList(self.inputFile)
-        # self.topsFields = self.setTopsFields(self.inputFile, self.topsList)
-        # self.topsData = self.setTopsData(self.inputFile, self.topsList)
+        self.logFields = self.setLogFields(self.inputFile, self.logList)
+        # self.logData = self.setLogData(self.inputFile, self.logList)
 
     def readFile(self, filename):
         """Method to read the input file contents"""
@@ -76,6 +76,29 @@ class Las2csv(object):
                 idx += 1
             tops.append(fields)
             result.append(tops)
+        return result
+
+    def setLogFields(self, inputfile, loglist):
+        """Method to define the list of fields for each LOG section"""
+        # resulting list to output
+        result = []
+        for i in loglist:
+            # each ~LOG_DEFINITION section
+            log = []
+            log.append(i)
+            # finds the inputFile index of the ~LOG_DEFINITION
+            idx = inputfile.index(i+'\n')
+            # takes the second line as the LOG NAME
+            log.append(inputfile[idx+2].split(':')[1]
+                        .replace(' Azimuth      {F}\n', '').replace('      {F}\n', ''))
+            # list of field names
+            fields = []
+            while inputfile[idx+2] != '#------------------------------------------------------------\n':
+                fields.append(inputfile[idx+2].split(':')[1]
+                              .replace('      {S}\n', '').replace('      {F}\n', '').replace('      {I}\n', ''))
+                idx += 1
+            log.append(fields)
+            result.append(log)
         return result
 
     def setTopsData(self, inputfile, topslist):
@@ -126,12 +149,12 @@ def test():
     # , 'v5-AKN1116.las', 'v5-KRC4402_8-4-4.las']
     a = Las2csv()
     # [print(i) for i in a.inputFile]
-    [print(i) for i in a.topsList]
+    # [print(i) for i in a.topsList]
     # [print(i) for i in a.topsFields]
     # [print(i) for i in a.topsData]
-    [print(i) for i in a.logList]
-    # [print(i) for i in a.logsFields]
-    # [print(i) for i in a.logsData]
+    # [print(i) for i in a.logList]
+    [print(i) for i in a.logFields]
+    # [print(i) for i in a.logData]
 
 
 # main loop
