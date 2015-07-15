@@ -5,7 +5,7 @@
 #                   Bolinha
 # Bolinha is a script to process LAS files
 #
-# v0.1.014
+# v0.1.015
 # for Issues #13
 #
 # Rodrigo Nobrega
@@ -72,7 +72,7 @@ class Las2csv(object):
         """Method to read and return the real section data to a list"""
         # resulting list to output
         result = []
-        for i in topslist[:-1]:
+        for i in topslist:
             # each ~TOPS_DEFINITION section
             tops = []
             tops.append(i)
@@ -85,7 +85,7 @@ class Las2csv(object):
             idx += 2
             data = []
             # iterate until next separator, marking end of data
-            while inputfile[idx] != '#------------------------------------------------------------\n' and inputfile[idx]:
+            while idx < len(inputfile) and inputfile[idx] != '#------------------------------------------------------------\n':
                 data.append(inputfile[idx])
                 idx += 1
             tops.append(data)
