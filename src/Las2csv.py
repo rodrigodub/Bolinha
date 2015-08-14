@@ -6,15 +6,16 @@
 # Las2csv is a script to process a LAS 3.0 file
 # and convert it into multiple CSV files
 #
-# v1.0
-# for Issue #17
+# v1.004
+# for Issue #18
 #
 # Rodrigo Nobrega
-# 20150709-20150715
+# 20150709-20150814
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
 # import modules
+import sys
 
 
 # LHFile
@@ -75,8 +76,8 @@ class Las2csv(object):
     logFields : list - list of trios [log section, log name, [field1, field2, ..., fieldn]]
     logData : list - list of data from each LOG section as [log section, [d1, d2, ..., dn]]
     """
-    def __init__(self):
-        self.inputFileName = input('File name? ')
+    def __init__(self, argv):
+        self.inputFileName = argv
         self.path = self.inputFileName.rsplit('\\', maxsplit=1)[0]
         try:
             self.las = self.inputFileName.rsplit('\\', maxsplit=1)[1]
@@ -313,15 +314,15 @@ def test():
 
 
 # main loop
-def main():
+def main(argv):
     print('------------------------')
     print('LAS 3.0 to CSVs')
     print('------------------------')
-    a = Las2csv()
+    a = Las2csv(argv)
     a.writeFiles()
 
 
 # main, calling main loop
 if __name__ == '__main__':
     # test()
-    main()
+    main(sys.argv[1])
