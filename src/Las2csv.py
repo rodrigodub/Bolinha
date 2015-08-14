@@ -6,15 +6,16 @@
 # Las2csv is a script to process a LAS 3.0 file
 # and convert it into multiple CSV files
 #
-# v1.0
-# for Issue #17
+# v1.001
+# for Issue #18
 #
 # Rodrigo Nobrega
-# 20150709-20150715
+# 20150709-20150814
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
 # import modules
+import sys
 
 
 # LHFile
