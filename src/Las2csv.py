@@ -6,7 +6,7 @@
 # Las2csv is a script to process a LAS 3.0 file
 # and convert it into multiple CSV files
 #
-# v1.102
+# v1.2
 # for Issue #20
 #
 # Rodrigo Nobrega
