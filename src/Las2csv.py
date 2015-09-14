@@ -6,11 +6,11 @@
 # Las2csv is a script to process a LAS 3.0 file
 # and convert it into multiple CSV files
 #
-# v1.1
-# for Issue #18
+# v1.101
+# for Issue #20
 #
 # Rodrigo Nobrega
-# 20150709-20150814
+# 20150709-20150914
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
