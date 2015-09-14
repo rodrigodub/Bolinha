@@ -6,7 +6,7 @@
 # Las2csv is a script to process a LAS 3.0 file
 # and convert it into multiple CSV files
 #
-# v1.101
+# v1.102
 # for Issue #20
 #
 # Rodrigo Nobrega
@@ -216,7 +216,10 @@ class Las2csv(object):
         for i in parameter:
             if i.split(':')[0].split('.')[1].strip():
                 dictionary[i.split('.')[0]] = i.split(':')[0].split('.', maxsplit=1)[1].strip()
-        dictionary['HOLEID'] = dictionary['SITECODE'] + dictionary['DH_NUMBER']
+        try:
+            dictionary['HOLEID'] = dictionary['SITECODE'] + dictionary['DH_NUMBER']
+        except:
+            dictionary['HOLEID'] = dictionary['HoleID']
         dictionary['COMPLETE'] = parameter
         return dictionary
 
